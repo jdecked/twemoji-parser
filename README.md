@@ -5,7 +5,9 @@ A simple library for identifying emoji entities within a string in order to rend
 For example, this parser is used within the rendering flow for Tweets and other text on [mobile.twitter.com](https://mobile.twitter.com)
 
 ## Setup
+
 Add `twemoji-parser` as a dependency to your project:
+
 ```
 yarn add twemoji-parser
 ```
@@ -13,20 +15,22 @@ yarn add twemoji-parser
 Or, to work directly in this repo, clone it and run `yarn install` from the repo root.
 
 ## Usage
+
 The [tests](src/__tests__/index.test.js) are intended to serve as a more exhaustive source of documentation, but the general idea is that the parser takes a string and returns an array of the emoji entities it finds:
+
 ```js
 import { parse } from 'twemoji-parser';
 const entities = parse('I 🧡 Twemoji! 🥳');
 /*
 entities = [
   {
-    url: 'https://twemoji.maxcdn.com/v/latest/svg/1f9e1.svg',
+    url: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f9e1.svg',
     indices: [ 2, 4 ],
     text: '🧡',
     type: 'emoji'
   },
   {
-    url: 'https://twemoji.maxcdn.com/v/latest/svg/1f973.svg',
+    url: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/1f973.svg',
     indices: [ 12, 14 ],
     text: '🥳',
     type: 'emoji'
@@ -34,9 +38,10 @@ entities = [
 ]
 */
 ```
+
 ## Authors
 
-* Nathan Downs <ndowns [at] twitter [dot] com>
+- Nathan Downs <ndowns [at] twitter [dot] com>
 
 Follow [@TwitterOSS](https://twitter.com/twitteross) on Twitter for updates.
 
@@ -51,6 +56,7 @@ in all interactions with the community.
 Create a [new issue](https://github.com/twitter/twemoji-parser/issues/new) on GitHub.
 
 ## Security Issues?
+
 Please report sensitive security issues via Twitter's bug-bounty program (https://hackerone.com/twitter) rather than GitHub.
 
 ## License
