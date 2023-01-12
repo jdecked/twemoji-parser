@@ -1,5 +1,5 @@
 // Copyright Twitter Inc. Licensed under MIT
-// https://github.com/twitter/twemoji-parser/blob/master/LICENSE.md
+// https://github.com/jdecked/twemoji-parser/blob/master/LICENSE.md
 import { parse, TypeName } from '..';
 
 test('TypeName is exported', () => {
