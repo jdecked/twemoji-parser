@@ -1,12 +1,15 @@
 {
   "license": "MIT",
   "name": "@twemoji/parser",
-  "version": "14.0.0",
+  "version": "14.1.0",
   "description": "Parser for identifying Twemoji in text",
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "babel src --out-dir dist --ignore test.js",
     "ci": "yarnpkg lint && yarnpkg flow:ci && yarnpkg test",
