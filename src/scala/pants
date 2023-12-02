@@ -11,6 +11,7 @@
 # ====================================================================
 
 set -eou pipefail
+ulimit -n 10000
 
 # NOTE: To use an unreleased version of Pants from the pantsbuild/pants master branch,
 #  locate the master branch SHA, set PANTS_SHA=<SHA> in the environment, and run this script as usual.
