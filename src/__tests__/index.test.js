@@ -809,4 +809,42 @@ describe('version spot checks', () => {
       ]);
     });
   });
+
+  describe('Emoji 15.0', () => {
+    test('single-codepoint leftward pushing hand with no skintone', () => {
+      expect(parse('\ud83e\udef7')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udef7'
+        }
+      ]);
+    });
+
+    test('single-codepoint rightward pushing hand with skintone', () => {
+      expect(parse('\ud83e\udef8\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83e\udef8\ud83c\udffb'
+        }
+      ]);
+    });
+
+    test('black bird', () => {
+      expect(parse('\ud83d\udc26\u200d\u2b1b')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83d\udc26\u200d\u2b1b'
+        }
+      ]);
+    });
+
+    test('wing', () => {
+      expect(parse('\ud83e\udebd')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udebd'
+        }
+      ]);
+    });
+  });
 });
