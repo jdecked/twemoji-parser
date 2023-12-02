@@ -1,4 +1,4 @@
-# Twemoji Parser [![Build Status](https://travis-ci.com/twitter/twemoji-parser.svg)](https://travis-ci.com/twitter/twemoji-parser)
+# Twemoji Parser
 
 A simple library for identifying emoji entities within a string in order to render them as Twemoji.
 
