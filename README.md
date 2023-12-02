@@ -6,10 +6,13 @@ For example, this parser is used within the rendering flow for Tweets and other 
 
 ## Setup
 
-Add `twemoji-parser` as a dependency to your project:
+> [!IMPORTANT]
+> The `twemoji-parser` package is now being published as `@twemoji/parser`
 
-```
-yarn add twemoji-parser
+Add `@twemoji/parser` as a dependency to your project:
+
+```sh
+yarn add @twemoji/parser
 ```
 
 Or, to work directly in this repo, clone it and run `yarn install` from the repo root.
@@ -19,7 +22,7 @@ Or, to work directly in this repo, clone it and run `yarn install` from the repo
 The [tests](src/__tests__/index.test.js) are intended to serve as a more exhaustive source of documentation, but the general idea is that the parser takes a string and returns an array of the emoji entities it finds:
 
 ```js
-import { parse } from 'twemoji-parser';
+import { parse } from '@twemoji/parser';
 const entities = parse('I 🧡 Twemoji! 🥳');
 /*
 entities = [
