@@ -177,17 +177,48 @@ class ItemSpec extends AnyWordSpec with Matchers {
           }
         }
 
+        s"for $Directional" in {
+          val defaultItem = getItem("270c", Directional)
+          val direcitonalItem = Item(defaultItem, Map())
+          direcitonalItem.text must equal(getText(0x270c))
+          direcitonalItem.directionalVariants.map(_.text) must equal(
+            Seq(getText(0x270c, 0x200d, 0x27a1, 0xfe0f))
+          )
+        }
+
         s"for $Diversity" in {
           val defaultItem = getItem("270c", Diversity)
-          val variantDiversityItem = Item(defaultItem, Map())
-          variantDiversityItem.text must equal(getText(0x270c))
-          variantDiversityItem.skinToneVariants.map(_.text) must equal(
+          val diversityItem = Item(defaultItem, Map())
+          diversityItem.text must equal(getText(0x270c))
+          diversityItem.skinToneVariants.map(_.text) must equal(
             Seq(
               getText(0x270c, 0x1f3fb),
               getText(0x270c, 0x1f3fc),
               getText(0x270c, 0x1f3fd),
               getText(0x270c, 0x1f3fe),
               getText(0x270c, 0x1f3ff)
+            ))
+        }
+
+        s"for $DirectionalDiversity" in {
+          val defaultItem = getItem("270c", DirectionalDiversity)
+          val directionalDiversityItem = Item(defaultItem, Map())
+          directionalDiversityItem.text must equal(getText(0x270c))
+          directionalDiversityItem.directionalVariants.map(_.text) must equal(
+            Seq(getText(0x270c, 0x200d, 0x27a1, 0xfe0f))
+          )
+          directionalDiversityItem.skinToneVariants.map(_.text) must equal(
+            Seq(
+              getText(0x270c, 0x1f3fb),
+              getText(0x270c, 0x1f3fb, 0x200d, 0x27a1, 0xfe0f),
+              getText(0x270c, 0x1f3fc),
+              getText(0x270c, 0x1f3fc, 0x200d, 0x27a1, 0xfe0f),
+              getText(0x270c, 0x1f3fd),
+              getText(0x270c, 0x1f3fd, 0x200d, 0x27a1, 0xfe0f),
+              getText(0x270c, 0x1f3fe),
+              getText(0x270c, 0x1f3fe, 0x200d, 0x27a1, 0xfe0f),
+              getText(0x270c, 0x1f3ff),
+              getText(0x270c, 0x1f3ff, 0x200d, 0x27a1, 0xfe0f)
             ))
         }
       }
@@ -215,6 +246,22 @@ class ItemSpec extends AnyWordSpec with Matchers {
           getItem("1f606", emojiType).maxCodePointSequenceLength must be(3)
           getItem("1f606-1f607", emojiType).maxCodePointSequenceLength must be(
             4)
+        }
+      }
+
+      Seq(Directional).foreach { emojiType =>
+        "adds three to base codepoint length for " + emojiType in {
+          getItem("1f606", emojiType).maxCodePointSequenceLength must be(4)
+          getItem("1f606-1f607", emojiType).maxCodePointSequenceLength must be(
+            5)
+        }
+      }
+
+      Seq(DirectionalDiversity).foreach { emojiType =>
+        "adds four to base codepoint length for " + emojiType in {
+          getItem("1f606", emojiType).maxCodePointSequenceLength must be(5)
+          getItem("1f606-1f607", emojiType).maxCodePointSequenceLength must be(
+            6)
         }
       }
 

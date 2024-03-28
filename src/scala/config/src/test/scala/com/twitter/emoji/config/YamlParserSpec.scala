@@ -34,6 +34,11 @@ class YamlParserSpec extends AnyWordSpec with Matchers {
                 "Regional indicator symbol letter a",
                 EmojiType.Regional
               ),
+              Item(
+                CodePoints(Seq(0x1f985)),
+                "Eagle",
+                EmojiType.Directional
+              ),
               Item(CodePoints(Seq(0x1f1e8, 0x1f1e6), false),
                    "Flag of Canada",
                    EmojiType.Flag,
@@ -64,6 +69,11 @@ class YamlParserSpec extends AnyWordSpec with Matchers {
             "skin_tones",
             "Emoji with skin tone",
             Seq(
+              Item(
+                CodePoints(Seq(0x1f9ce)),
+                "Person kneeling",
+                EmojiType.DirectionalDiversity
+              ),
               Item(CodePoints(Seq(0x1f60f)),
                    "Smirking face",
                    EmojiType.Diversity),
@@ -93,6 +103,21 @@ class YamlParserSpec extends AnyWordSpec with Matchers {
       val items = config.categories(1).items
       items(0).diversitySequences must equal(
         Seq(
+          CodePoints(Seq(0x1f9ce)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fb)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fb, 0x200d, 0x27a1, 0xfe0f)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fc)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fc, 0x200d, 0x27a1, 0xfe0f)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fd)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fd, 0x200d, 0x27a1, 0xfe0f)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fe)),
+          CodePoints(Seq(0x1f9ce, 0x1f3fe, 0x200d, 0x27a1, 0xfe0f)),
+          CodePoints(Seq(0x1f9ce, 0x1f3ff)),
+          CodePoints(Seq(0x1f9ce, 0x1f3ff, 0x200d, 0x27a1, 0xfe0f))
+        )
+      )
+      items(1).diversitySequences must equal(
+        Seq(
           CodePoints(Seq(0x1f60f)),
           CodePoints(Seq(0x1f60f, 0x1f3fb)),
           CodePoints(Seq(0x1f60f, 0x1f3fc)),
@@ -101,7 +126,7 @@ class YamlParserSpec extends AnyWordSpec with Matchers {
           CodePoints(Seq(0x1f60f, 0x1f3ff))
         )
       )
-      items(1).diversitySequences must equal(Seq(CodePoints(Seq(0x1f611))))
+      items(2).diversitySequences must equal(Seq(CodePoints(Seq(0x1f611))))
     }
 
     "generates string and key for codepoints" in {
@@ -360,6 +385,9 @@ object YamlParserSpec {
   - unicode: "1f1e6"
     description: "Regional indicator symbol letter a"
     type: regional
+  - unicode: "1f985"
+    description: "Eagle"
+    type: "directional"
   - unicode: "1f1e8-1f1e6"
     description: "Flag of Canada"
     type: flag
@@ -381,6 +409,9 @@ object YamlParserSpec {
 - id: skin_tones
   title: Emoji with skin tone
   items:
+  - unicode: "1f9ce"
+    description: "Person kneeling"
+    type: "directional,diversity"
   - unicode: "1f60f"
     description: "Smirking face"
     type: "diversity"

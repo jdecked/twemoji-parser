@@ -22,12 +22,14 @@ class CategoryForInfo(c: Category,
         if (withVariantSuffix) {
           val variant =
             if (EmojiType.VariantTypes.contains(item.emojiType)) "=" else ""
+          val directional =
+            if (EmojiType.DirectionalTypes.contains(item.emojiType)) ">" else ""
           val diversity =
             if (EmojiType.SingleDiversityTypes.contains(item.emojiType)) "*"
             else ""
           val textDefault =
             if (item.emojiType == EmojiType.TextDefault) "T" else ""
-          item.key + variant + diversity + textDefault
+          item.key + variant + directional + diversity + textDefault
         } else item.key
       }
       .mkString(" ")

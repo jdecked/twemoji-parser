@@ -13,6 +13,7 @@ class CategorySpec extends AnyWordSpec with Matchers {
     Seq(
       Item(CodePoints(Seq(0x1f604)), "normal", EmojiType.Normal),
       Item(CodePoints(Seq(0x2b50)), "White medium star", EmojiType.Variant),
+      Item(CodePoints(Seq(0x1f985)), "Eagle", EmojiType.Directional),
       Item(CodePoints(Seq(0x1f476)), "Baby", EmojiType.Diversity, false),
       Item(CodePoints(Seq(0x261d)), "text", EmojiType.TextDefault)
     )
@@ -23,14 +24,14 @@ class CategorySpec extends AnyWordSpec with Matchers {
         val categoryForInfo =
           new CategoryForInfo(c = defaultCategory, withVariantSuffix = true)
         categoryForInfo.formattedItems.trim() must equal(
-          "\"1f604 2b50= 1f476* 261dT\"")
+          "\"1f604 2b50= 1f985> 1f476* 261dT\"")
       }
 
       "formats correctly when withVariantSuffix is false" in {
         val categoryForInfo =
           new CategoryForInfo(c = defaultCategory, withVariantSuffix = false)
         categoryForInfo.formattedItems.trim() must equal(
-          "\"1f604 2b50 1f476 261d\"")
+          "\"1f604 2b50 1f985 1f476 261d\"")
       }
     }
   }

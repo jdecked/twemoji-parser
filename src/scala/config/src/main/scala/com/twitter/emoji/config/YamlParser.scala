@@ -7,15 +7,17 @@ import org.yaml.snakeyaml.Yaml
 import scala.collection.JavaConverters._
 
 object EmojiType extends Enumeration {
-  val Normal, Keycap, Flag, Regional, Variant, Diversity, VariantDiversity,
-  TextDefault, MultiDiversity = Value
+  val Normal, Keycap, Flag, Regional, Variant, Directional, Diversity,
+  DirectionalDiversity, VariantDiversity, TextDefault, MultiDiversity = Value
 
   private val lookup = Map[String, Value](
     "keycap" -> Keycap,
     "flag" -> Flag,
     "regional" -> Regional,
     "variant" -> Variant,
+    "directional" -> Directional,
     "diversity" -> Diversity,
+    "directional,diversity" -> DirectionalDiversity,
     "variant,diversity" -> VariantDiversity,
     "text-default" -> TextDefault,
     "multi-diversity" -> MultiDiversity
@@ -24,8 +26,11 @@ object EmojiType extends Enumeration {
   def apply(string: String): Value = lookup(string)
 
   val VariantTypes = Seq(Variant, VariantDiversity)
-  val SingleDiversityTypes = Seq(Diversity, VariantDiversity)
-  val DiversityTypes = Seq(Diversity, VariantDiversity, MultiDiversity)
+  val DirectionalTypes = Seq(Directional, DirectionalDiversity)
+  val SingleDiversityTypes =
+    Seq(Diversity, DirectionalDiversity, VariantDiversity)
+  val DiversityTypes =
+    Seq(Diversity, DirectionalDiversity, VariantDiversity, MultiDiversity)
 }
 
 object YamlParser {
@@ -45,6 +50,18 @@ object YamlParser {
   val Zwj = 0x200d
   // Force Emoji rendering, see http://unicode.org/reports/tr51/#Emoji_Variation_Sequences
   val VS16 = 0xfe0f
+  // Right directional ZWJ sequence, introduced in Emoji 15.1. See https://unicode.org/reports/tr51/#Direction
+  val RightDirectionalZwjSeq = Seq(
+    0x200d,
+    0x27a1,
+    0xfe0f
+  )
+  // Left directional ZWJ sequence, introduced in Emoji 15.1. See https://unicode.org/reports/tr51/#Direction
+  val LeftDirectionalZwjSeq = Seq(
+    0x200d,
+    0x2b05,
+    0xfe0f
+  )
 
   def apply(source: String): Config = {
     // Shimmed out version of internal com.twitter.config.yaml.YamlLoader
