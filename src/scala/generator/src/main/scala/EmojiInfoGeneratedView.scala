@@ -1,21 +1,28 @@
-import com.twitter.emoji.config.{CategoryForInfo, CodePoints, EmojiType, Item, YamlParser}
+import com.twitter.emoji.config.{
+  CategoryForInfo,
+  CodePoints,
+  EmojiType,
+  Item,
+  YamlParser
+}
 import com.twitter.emoji.config.Utils.formatMultilineString
 
 object ZwjDiversityType extends Enumeration {
-  val LeadingGender, TrailingGenderWithoutVariant, TrailingGenderWithVariant = Value
+  val LeadingGender, TrailingGenderWithoutVariant, TrailingGenderWithVariant =
+    Value
 }
 
-class EmojiInfoGeneratedView(
-  source: String,
-  quote: String = "\"",
-  isUCS2: Boolean = false,
-  withVariantSuffix: Boolean = true,
-  withExcludedEmojis: Boolean = true,
-  emojiSpritePositions: Map[String, (Int, Int)] = Map.empty,
-  isOutputObjC: Boolean = false,
-  isOutputRuby: Boolean = false,
-  rows: Int = 0,
-  columns: Int = 0) {
+class EmojiInfoGeneratedView(source: String,
+                             quote: String = "\"",
+                             isUCS2: Boolean = false,
+                             withVariantSuffix: Boolean = true,
+                             withExcludedEmojis: Boolean = true,
+                             emojiSpritePositions: Map[String, (Int, Int)] =
+                               Map.empty,
+                             isOutputObjC: Boolean = false,
+                             isOutputRuby: Boolean = false,
+                             rows: Int = 0,
+                             columns: Int = 0) {
   private val KeycapCodePoint = 0x20e3
   private val ZwjCodePoint = 0x200d
   private val ManCodePoint = 0x1f468
@@ -52,7 +59,9 @@ class EmojiInfoGeneratedView(
 
   private val config = YamlParser(source)
   private val emojiItems = config.categories.flatMap { category =>
-    category.items.map { item => Item(item, emojiSpritePositions) }
+    category.items.map { item =>
+      Item(item, emojiSpritePositions)
+    }
   }
   private var emojiKeys = Set[String]()
   val allEmojiItems = emojiItems.filterNot(item => {
@@ -64,7 +73,8 @@ class EmojiInfoGeneratedView(
       seen
     }
   })
-  val (emojiMostItems, emojiLastItem) = allEmojiItems.splitAt(allEmojiItems.size - 1)
+  val (emojiMostItems, emojiLastItem) =
+    allEmojiItems.splitAt(allEmojiItems.size - 1)
 
   // Create a map of common prefixes -> lists of last items that share the prefix.
   // This is to compact the regex. For example, /abc|abd|abe/ can be /ab[cde]/
@@ -91,7 +101,8 @@ class EmojiInfoGeneratedView(
     seq.sorted
       .foldLeft(Seq.empty[(Int, Int)]) {
         // The new value extends the last span added, so continue it.
-        case ((start, end) :: tail, value) if (end + 1 == value) => (start, value) +: tail
+        case ((start, end) :: tail, value) if (end + 1 == value) =>
+          (start, value) +: tail
         // Otherwise, create new span.
         case (spans, value) => (value, value) +: spans
       }
@@ -159,7 +170,8 @@ class EmojiInfoGeneratedView(
     }
   }
 
-  private def internalRegexFromCodepointSequences(codePointSequences: Seq[Seq[Int]]) = {
+  private def internalRegexFromCodepointSequences(
+      codePointSequences: Seq[Seq[Int]]) = {
     val groupedItems = groupLastItemsByPrefix(codePointSequences)
     val sortedGroupedItems = groupedItems.toSeq.sortBy {
       case (prefix, _) =>
@@ -177,7 +189,8 @@ class EmojiInfoGeneratedView(
     // Return something that is a single char or [] class,
     // or a non-capturing group of chars and [] classes "|"ed together.
     if (regexParts.isEmpty) throw new Exception("Regex cannot be empty")
-    else if (regexParts.length == 1 && sortedGroupedItems.head._1.isEmpty) regexParts.head
+    else if (regexParts.length == 1 && sortedGroupedItems.head._1.isEmpty)
+      regexParts.head
     else regexParts.mkString("(?:", "|", ")")
   }
 
@@ -191,7 +204,7 @@ class EmojiInfoGeneratedView(
               (codePoint & 0x3ff) + 0xdc00
             )
           case codePoint if codePoint < 0x10000 => Seq(codePoint)
-          case _ => Nil
+          case _                                => Nil
         }
       })
     } else codePointSequences
@@ -201,7 +214,8 @@ class EmojiInfoGeneratedView(
 
   private val (multiDiversityItems, nonMultiDiversityItems) =
     emojiItems.partition(_.emojiType == EmojiType.MultiDiversity)
-  private val (zwjItems, nonZwjItems) = nonMultiDiversityItems.partition(_.hasZeroWidthJoiner)
+  private val (zwjItems, nonZwjItems) =
+    nonMultiDiversityItems.partition(_.hasZeroWidthJoiner)
   private val (zwjDiversityItems, zwjNonDiversityItems) =
     zwjItems.partition(item => {
       item.emojiType == EmojiType.Diversity || item.emojiType == EmojiType.DirectionalDiversity
@@ -219,10 +233,11 @@ class EmojiInfoGeneratedView(
   }
 
   private def verifyGenderComplementExists(
-    genderComplementCodepoints: CodePoints,
-    item: Item
+      genderComplementCodepoints: CodePoints,
+      item: Item
   ): Unit = {
-    if (!zwjDiversityItems.exists(_.codepoints.cp == genderComplementCodepoints.cp)) {
+    if (!zwjDiversityItems.exists(
+          _.codepoints.cp == genderComplementCodepoints.cp)) {
       throw new Exception(
         s"Zwj diversity item ${item.codepoints.key} is missing its gender-complement sequence ${genderComplementCodepoints.key}"
       )
@@ -230,23 +245,33 @@ class EmojiInfoGeneratedView(
   }
 
   val multiDiversityCodepointSequences =
-    multiDiversityItems.flatMap { item => item.diversitySequences }.map { codepoints =>
-      codepoints.cp
-    }
+    multiDiversityItems
+      .flatMap { item =>
+        item.diversitySequences
+      }
+      .map { codepoints =>
+        codepoints.cp
+      }
 
   private val zwjDiversityBreakdown = zwjDiversityItems.flatMap { item =>
     item.codepoints.cp match {
       case cp if cp.take(2) == Seq(ManCodePoint, ZwjCodePoint) =>
-        verifyGenderComplementExists(CodePoints(WomanCodePoint +: cp.drop(1)), item)
-        verifyGenderComplementExists(CodePoints(PersonCodePoint +: cp.drop(1)), item)
+        verifyGenderComplementExists(CodePoints(WomanCodePoint +: cp.drop(1)),
+                                     item)
+        verifyGenderComplementExists(CodePoints(PersonCodePoint +: cp.drop(1)),
+                                     item)
         None
       case cp if cp.take(2) == Seq(WomanCodePoint, ZwjCodePoint) =>
-        verifyGenderComplementExists(CodePoints(ManCodePoint +: cp.drop(1)), item)
-        verifyGenderComplementExists(CodePoints(PersonCodePoint +: cp.drop(1)), item)
+        verifyGenderComplementExists(CodePoints(ManCodePoint +: cp.drop(1)),
+                                     item)
+        verifyGenderComplementExists(CodePoints(PersonCodePoint +: cp.drop(1)),
+                                     item)
         None
       case cp if cp.take(2) == Seq(PersonCodePoint, ZwjCodePoint) =>
-        verifyGenderComplementExists(CodePoints(ManCodePoint +: cp.drop(1)), item)
-        verifyGenderComplementExists(CodePoints(WomanCodePoint +: cp.drop(1)), item)
+        verifyGenderComplementExists(CodePoints(ManCodePoint +: cp.drop(1)),
+                                     item)
+        verifyGenderComplementExists(CodePoints(WomanCodePoint +: cp.drop(1)),
+                                     item)
         Some((ZwjDiversityType.LeadingGender, cp.drop(2)))
       case cp
           if cp.takeRight(4) == Seq(
@@ -256,7 +281,8 @@ class EmojiInfoGeneratedView(
             VS16CodePoint
           ) =>
         verifyGenderComplementExists(
-          CodePoints(cp.dropRight(2) ++ Seq(FemaleSignCodePoint, VS16CodePoint)),
+          CodePoints(
+            cp.dropRight(2) ++ Seq(FemaleSignCodePoint, VS16CodePoint)),
           item
         )
         Some((ZwjDiversityType.TrailingGenderWithVariant, cp.dropRight(4)))
@@ -271,13 +297,31 @@ class EmojiInfoGeneratedView(
           CodePoints(cp.dropRight(2) ++ Seq(MaleSignCodePoint, VS16CodePoint)),
           item)
         None
-      case cp if cp.takeRight(3) == Seq(ZwjCodePoint, MaleSignCodePoint, VS16CodePoint) =>
+      case cp
+          if cp.takeRight(4) == Seq(
+            VS16CodePoint,
+            ZwjCodePoint,
+            FemaleSignCodePoint,
+            VS16CodePoint
+          ) =>
         verifyGenderComplementExists(
-          CodePoints(cp.dropRight(2) ++ Seq(FemaleSignCodePoint, VS16CodePoint)),
+          CodePoints(cp.dropRight(2) ++ Seq(MaleSignCodePoint, VS16CodePoint)),
+          item)
+        None
+      case cp
+          if cp.takeRight(3) == Seq(ZwjCodePoint,
+                                    MaleSignCodePoint,
+                                    VS16CodePoint) =>
+        verifyGenderComplementExists(
+          CodePoints(
+            cp.dropRight(2) ++ Seq(FemaleSignCodePoint, VS16CodePoint)),
           item
         )
         Some((ZwjDiversityType.TrailingGenderWithoutVariant, cp.dropRight(3)))
-      case cp if cp.takeRight(3) == Seq(ZwjCodePoint, FemaleSignCodePoint, VS16CodePoint) =>
+      case cp
+          if cp.takeRight(3) == Seq(ZwjCodePoint,
+                                    FemaleSignCodePoint,
+                                    VS16CodePoint) =>
         verifyGenderComplementExists(
           CodePoints(cp.dropRight(2) ++ Seq(MaleSignCodePoint, VS16CodePoint)),
           item)
@@ -289,7 +333,8 @@ class EmojiInfoGeneratedView(
     }
   }
 
-  private def codePointSequencesByZwjDiversityType(typeNeeded: ZwjDiversityType.Value) =
+  private def codePointSequencesByZwjDiversityType(
+      typeNeeded: ZwjDiversityType.Value) =
     zwjDiversityBreakdown.collect {
       case (zwjDiversityType, cp) if zwjDiversityType == typeNeeded => cp
     }
@@ -297,10 +342,12 @@ class EmojiInfoGeneratedView(
   val zwjLeadingGenderRegex = regexFromCodepointSequences(
     codePointSequencesByZwjDiversityType(ZwjDiversityType.LeadingGender)
   )
-  val formattedZwjLeadingGenderRegex = formatMultilineString(zwjLeadingGenderRegex, quote)
+  val formattedZwjLeadingGenderRegex =
+    formatMultilineString(zwjLeadingGenderRegex, quote)
 
   val zwjTrailingGenderWithVariantRegex = regexFromCodepointSequences(
-    codePointSequencesByZwjDiversityType(ZwjDiversityType.TrailingGenderWithVariant)
+    codePointSequencesByZwjDiversityType(
+      ZwjDiversityType.TrailingGenderWithVariant)
   )
   val formattedZwjTrailingGenderWithVariantRegex = formatMultilineString(
     zwjTrailingGenderWithVariantRegex,
@@ -308,7 +355,8 @@ class EmojiInfoGeneratedView(
   )
 
   val zwjTrailingGenderWithoutVariantRegex = regexFromCodepointSequences(
-    codePointSequencesByZwjDiversityType(ZwjDiversityType.TrailingGenderWithoutVariant)
+    codePointSequencesByZwjDiversityType(
+      ZwjDiversityType.TrailingGenderWithoutVariant)
   )
   val formattedZwjTrailingGenderWithoutVariantRegex = formatMultilineString(
     zwjTrailingGenderWithoutVariantRegex,
@@ -333,9 +381,11 @@ class EmojiInfoGeneratedView(
       _.filter { _ != KeycapCodePoint }
     }
   )
-  val formattedKeycapPrefixRegex = formatMultilineString(keycapPrefixRegex, quote)
+  val formattedKeycapPrefixRegex =
+    formatMultilineString(keycapPrefixRegex, quote)
 
-  val variantRegex = regexFromCodepointSequences(codePointSequencesByType(EmojiType.Variant))
+  val variantRegex = regexFromCodepointSequences(
+    codePointSequencesByType(EmojiType.Variant))
   val formattedVariantRegex = formatMultilineString(variantRegex, quote)
 
   val textDefaultRegex = regexFromCodepointSequences(
@@ -350,7 +400,8 @@ class EmojiInfoGeneratedView(
   val diversityRegex = regexFromCodepointSequences(
     codePointSequencesByType(EmojiType.Diversity)
   )
-  val formattedDiversityRegex = formatMultilineString(diversityRegex, quote, indent = "      ")
+  val formattedDiversityRegex =
+    formatMultilineString(diversityRegex, quote, indent = "      ")
 
   val variantDiversityRegex = regexFromCodepointSequences(
     codePointSequencesByType(EmojiType.VariantDiversity)
@@ -371,12 +422,16 @@ class EmojiInfoGeneratedView(
   )
   val formattedNormalRegex = formatMultilineString(normalRegex, quote)
 
-  val multiDiversityRegex = regexFromCodepointSequences(multiDiversityCodepointSequences)
-  val formattedMultiDiversityRegex = formatMultilineString(multiDiversityRegex, quote)
+  val multiDiversityRegex = regexFromCodepointSequences(
+    multiDiversityCodepointSequences)
+  val formattedMultiDiversityRegex =
+    formatMultilineString(multiDiversityRegex, quote)
 
-  val categories = config.categories.map(new CategoryForInfo(_, withVariantSuffix, quote))
+  val categories =
+    config.categories.map(new CategoryForInfo(_, withVariantSuffix, quote))
 
-  val longestCodepointSequence = emojiItems.map(_.maxCodePointSequenceLength).max
+  val longestCodepointSequence =
+    emojiItems.map(_.maxCodePointSequenceLength).max
 
   val spriteSheetRows = rows
   val spriteSheetColumns = columns
