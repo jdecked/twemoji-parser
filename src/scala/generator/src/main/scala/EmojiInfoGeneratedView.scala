@@ -19,8 +19,6 @@ class EmojiInfoGeneratedView(source: String,
                              withExcludedEmojis: Boolean = true,
                              emojiSpritePositions: Map[String, (Int, Int)] =
                                Map.empty,
-                             isOutputObjC: Boolean = false,
-                             isOutputRuby: Boolean = false,
                              rows: Int = 0,
                              columns: Int = 0) {
   private val KeycapCodePoint = 0x20e3
@@ -110,23 +108,15 @@ class EmojiInfoGeneratedView(source: String,
   }
 
   // Convert to the one or two unicode characters, concatenated into a String
-  // Handles UTF-16 surrogate pair expansion. If isOutputObjC is true,
-  // will write surrogate pairs in UTF-16 using big-U notation (safe for clang)
-  // If isOutputRuby is true, will output formatted properly for ruby.
+  // Handles UTF-16 surrogate pair expansion.
   // Examples:
   // unicodePattern(0x21) -> "\u0021"
   // unicodePattern(0x1f1e6) -> "\ud83c\udde6"
-  // unicodePattern(0x1f1e6) (isOutputObjC) -> "\U0001F1E6"
-  // unicodePattern(0x1f1e6) (isOutputRuby) -> "\\u{0001F1E6}"
   private def unicodePattern(v: Int): String = {
     if (v < 0xff) {
       Character
         .toChars(v)
         .mkString
-    } else if (v > 0xffff && isOutputObjC) {
-      "\\U%08x".format(v).mkString
-    } else if (v > 0xffff && isOutputRuby) {
-      "\\u{%06x}".format(v).mkString
     } else {
       Character
         .toChars(v)
