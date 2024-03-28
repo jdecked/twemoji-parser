@@ -27,6 +27,8 @@ class EmojiInfoGeneratedView(
   private val MaleSignCodePoint = 0x2642
   private val LightestSkinToneCodePoint = 0x1f3fb
   private val DarkestSkinToneCodePoint = 0x1f3ff
+  private val RightDirectionalZwjSeqCodePoints =
+    YamlParser.RightDirectionalZwjSeq
 
   val keycap = unicodePattern(KeycapCodePoint)
   val zwj = unicodePattern(ZwjCodePoint)
@@ -45,6 +47,8 @@ class EmojiInfoGeneratedView(
   )
   val manWomanPersonRegex = regexFromCodepointSequences(
     Seq(Seq(ManCodePoint), Seq(WomanCodePoint), Seq(PersonCodePoint)))
+  val rightDirectionalZwjSeqRegex = regexFromCodepointSequences(
+    Seq(RightDirectionalZwjSeqCodePoints))
 
   private val config = YamlParser(source)
   private val emojiItems = config.categories.flatMap { category =>
@@ -199,14 +203,18 @@ class EmojiInfoGeneratedView(
     emojiItems.partition(_.emojiType == EmojiType.MultiDiversity)
   private val (zwjItems, nonZwjItems) = nonMultiDiversityItems.partition(_.hasZeroWidthJoiner)
   private val (zwjDiversityItems, zwjNonDiversityItems) =
-    zwjItems.partition(_.emojiType == EmojiType.Diversity)
+    zwjItems.partition(item => {
+      item.emojiType == EmojiType.Diversity || item.emojiType == EmojiType.DirectionalDiversity
+    })
 
   zwjItems.foreach {
-    case item if item.emojiType == EmojiType.Normal => Unit
-    case item if item.emojiType == EmojiType.Diversity => Unit
+    case item if item.emojiType == EmojiType.Normal               => Unit
+    case item if item.emojiType == EmojiType.Directional          => Unit
+    case item if item.emojiType == EmojiType.Diversity            => Unit
+    case item if item.emojiType == EmojiType.DirectionalDiversity => Unit
     case item =>
       throw new Exception(
-        s"Zwj diversity item ${item.codepoints.key} has an invalid type (${item.emojiType}). Only diversity is allowed."
+        s"Zwj item ${item.codepoints.key} has an invalid type (${item.emojiType}). Only directional, diversity, or directional diversity are allowed."
       )
   }
 
@@ -334,6 +342,11 @@ class EmojiInfoGeneratedView(
     codePointSequencesByType(EmojiType.TextDefault))
   val formattedTextDefaultRegex = formatMultilineString(textDefaultRegex, quote)
 
+  // Uncomment & add to mustache file when non-diversity directional items are added to Emoji spec
+  // val directionalRegex = regexFromCodepointSequences(
+  //   codePointSequencesByType(EmojiType.Directional))
+  // val formattedDirectionalRegex = formatMultilineString(directionalRegex, quote)
+
   val diversityRegex = regexFromCodepointSequences(
     codePointSequencesByType(EmojiType.Diversity)
   )
@@ -344,6 +357,12 @@ class EmojiInfoGeneratedView(
   )
   val formattedVariantDiversityRegex =
     formatMultilineString(variantDiversityRegex, quote, indent = "      ")
+
+  val directionalDiversityRegex = regexFromCodepointSequences(
+    codePointSequencesByType(EmojiType.DirectionalDiversity)
+  )
+  val formattedDirectionalDiversityRegex =
+    formatMultilineString(directionalDiversityRegex, quote, indent = "      ")
 
   val normalRegex = regexFromCodepointSequences(
     codePointSequencesByType(EmojiType.Flag) ++
