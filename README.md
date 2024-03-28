@@ -44,21 +44,17 @@ entities = [
 
 ## Authors
 
-- Nathan Downs <ndowns [at] twitter [dot] com>
+- Nathan Downs (ex-Twitter)
+- Justine De Caires (ex-Twitter)
 
 ## Contributing
 
-We feel that a welcoming community is important and we ask that you follow Twitter's
-[Open Source Code of Conduct](https://github.com/twitter/code-of-conduct/blob/master/code-of-conduct.md)
-in all interactions with the community.
+We feel that a welcoming community is important and we ask that you follow our
+[Open Source Code of Conduct](CODE_OF_CONDUCT.md) in all interactions with the community.
 
 ## Support
 
 Create a [new issue](https://github.com/jdecked/twemoji-parser/issues/new) on GitHub.
-
-## Security Issues?
-
-Please report sensitive security issues via Twitter's bug-bounty program (https://hackerone.com/twitter) rather than GitHub.
 
 ## License
 

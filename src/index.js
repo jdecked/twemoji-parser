@@ -1,5 +1,5 @@
 // @flow
-// Copyright Twitter Inc. Licensed under MIT
+// Copyright Twitter Inc. and other contributors. Licensed under MIT
 // https://github.com/jdecked/twemoji-parser/blob/master/LICENSE.md
 import emojiRegex from './lib/regex';
 
