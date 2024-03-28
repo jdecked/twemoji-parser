@@ -847,4 +847,125 @@ describe('version spot checks', () => {
       ]);
     });
   });
+
+  describe('Emoji 15.1', () => {
+    test('head shaking horizontally', () => {
+      expect(parse('\ud83d\ude42\u200d\u2194\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\ude42\u200d\u2194\ufe0f'
+        }
+      ]);
+    });
+
+    test('head shaking vertically', () => {
+      expect(parse('\ud83d\ude42\u200d\u2195\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\ude42\u200d\u2195\ufe0f'
+        }
+      ]);
+    });
+
+    describe('directional diversity emoji', () => {
+      test('person walking facing right (trailing gender without variant, directional)', () => {
+        expect(parse('\ud83d\udeb6\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83d\udeb6\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person walking facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udeb6\ud83c\udffd\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 7],
+            text: '\ud83d\udeb6\ud83c\udffd\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('woman walking facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udeb6\ud83c\udffd\u200d\u2640\ufe0f\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83d\udeb6\ud83c\udffd\u200d\u2640\ufe0f\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('man walking (trailing gender without variant)', () => {
+        expect(parse('\ud83d\udeb6\u200d\u2642\ufe0f')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83d\udeb6\u200d\u2642\ufe0f'
+          }
+        ]);
+      });
+
+      test('woman with white cane facing right (leading gender, directional)', () => {
+        expect(parse('\ud83d\udc69\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 8],
+            text: '\ud83d\udc69\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person with white cane facing right, medium skin tone', () => {
+        expect(parse('\ud83e\uddd1\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83e\uddd1\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('man with white cane facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udc68\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83d\udc68\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person with white cane (leading gender)', () => {
+        expect(parse('\ud83e\uddd1\u200d\ud83e\uddaf')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83e\uddd1\u200d\ud83e\uddaf'
+          }
+        ]);
+      });
+    });
+
+    test('family: adult, adult, child, child', () => {
+      expect(parse('\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2')).toMatchObject([
+        {
+          indices: [0, 11],
+          text: '\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2'
+        }
+      ]);
+    });
+
+    test('phoenix', () => {
+      expect(parse('\ud83d\udc26\u200d\ud83d\udd25')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\udc26\u200d\ud83d\udd25'
+        }
+      ]);
+    });
+
+    test('broken chain', () => {
+      expect(parse('\u26d3\ufe0f\u200d\ud83d\udca5')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\u26d3\ufe0f\u200d\ud83d\udca5'
+        }
+      ]);
+    });
+  });
 });
