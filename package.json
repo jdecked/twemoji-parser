@@ -4,8 +4,10 @@
   "version": "15.1.0",
   "description": "Parser for identifying Twemoji in text",
   "main": "dist/index.js",
+  "types": "index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "publishConfig": {
     "access": "public"
