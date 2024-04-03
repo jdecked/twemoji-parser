@@ -9,12 +9,12 @@
     "dist",
     "index.d.ts"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jdecked/twemoji-parser.git"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "scripts": {
     "build": "babel src --out-dir dist --ignore test.js",
