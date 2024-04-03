@@ -1,6 +1,6 @@
 // @flow
-// Copyright Twitter Inc. Licensed under MIT
-// https://github.com/twitter/twemoji-parser/blob/master/LICENSE.md
+// Copyright Twitter Inc. and other contributors. Licensed under MIT
+// https://github.com/jdecked/twemoji-parser/blob/master/LICENSE.md
 import emojiRegex from './lib/regex';
 
 type EmojiEntity = {|
@@ -24,8 +24,8 @@ export function parse(text: string, options?: ParsingOptions): Array<EmojiEntity
       ? options.buildUrl
       : (codepoints, assetType) =>
           assetType === 'png'
-            ? `https://twemoji.maxcdn.com/v/latest/72x72/${codepoints}.png`
-            : `https://twemoji.maxcdn.com/v/latest/svg/${codepoints}.svg`;
+            ? `https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/${codepoints}.png`
+            : `https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/${codepoints}.svg`;
 
   const entities = [];
 

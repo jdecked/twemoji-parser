@@ -1,4 +1,7 @@
-Copyright (c) 2018 Twitter, Inc.
+MIT License
+
+Copyright (c) 2022–present Jason Sofonia & Justine De Caires
+Copyright (c) 2018–2021 Twitter
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

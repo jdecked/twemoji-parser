@@ -1,5 +1,5 @@
-// Copyright Twitter Inc. Licensed under MIT
-// https://github.com/twitter/twemoji-parser/blob/master/LICENSE.md
+// Copyright Twitter Inc. and other contributors. Licensed under MIT
+// https://github.com/jdecked/twemoji-parser/blob/master/LICENSE.md
 import { parse, TypeName } from '..';
 
 test('TypeName is exported', () => {
@@ -95,18 +95,18 @@ describe('parse', () => {
   });
 
   describe('URLs', () => {
-    test('use MaxCDN SVGs by default', () => {
+    test('use jsDelivr SVGs by default', () => {
       expect(parse('I \u2764 emoji!')).toMatchObject([
         {
-          url: 'https://twemoji.maxcdn.com/v/latest/svg/2764.svg'
+          url: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/2764.svg'
         }
       ]);
     });
 
-    test('can ask for MaxCDN PNGs', () => {
+    test('can ask for jsDelivr PNGs', () => {
       expect(parse('I \u2764 emoji!', { assetType: 'png' })).toMatchObject([
         {
-          url: 'https://twemoji.maxcdn.com/v/latest/72x72/2764.png'
+          url: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/72x72/2764.png'
         }
       ]);
     });
@@ -114,7 +114,7 @@ describe('parse', () => {
     test('non-png assetType defaults back to SVG', () => {
       expect(parse('I \u2764 emoji!', { assetType: 'foobar' })).toMatchObject([
         {
-          url: 'https://twemoji.maxcdn.com/v/latest/svg/2764.svg'
+          url: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/2764.svg'
         }
       ]);
     });
@@ -598,6 +598,7 @@ describe('version spot checks', () => {
         }
       ]);
     });
+
     describe('trans symbol', () => {
       test('with vs16', () => {
         expect(parse('\u26a7\ufe0f')).toMatchObject([
@@ -650,6 +651,321 @@ describe('version spot checks', () => {
           expect(parse(text)).toMatchObject([{ text }]);
         });
       }
+    });
+  });
+
+  describe('Emoji 13.0', () => {
+    test('Mx Claus', () => {
+      expect(parse('\ud83e\uddd1\u200d\ud83c\udf84')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83e\uddd1\u200d\ud83c\udf84'
+        }
+      ]);
+    });
+
+    test('black cat', () => {
+      expect(parse('\ud83d\udc08\u200d\u2b1b')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83d\udc08\u200d\u2b1b'
+        }
+      ]);
+    });
+
+    test('polar bear', () => {
+      expect(parse('\ud83d\udc3b\u200d\u2744\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\udc3b\u200d\u2744\ufe0f'
+        }
+      ]);
+    });
+
+    test('woman feeding baby', () => {
+      expect(parse('\ud83d\udc69\u200d\ud83c\udf7c')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\udc69\u200d\ud83c\udf7c'
+        }
+      ]);
+    });
+
+    test('man feeding baby', () => {
+      expect(parse('\ud83d\udc68\u200d\ud83c\udf7c')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\udc68\u200d\ud83c\udf7c'
+        }
+      ]);
+    });
+
+    test('person feeding baby', () => {
+      expect(parse('\ud83e\uddd1\u200d\ud83c\udf7c')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83e\uddd1\u200d\ud83c\udf7c'
+        }
+      ]);
+    });
+  });
+
+  describe('Emoji 13.1', () => {
+    test('Face exhaling', () => {
+      expect(parse('\ud83d\ude2e\u200d\ud83d\udca8')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\ude2e\u200d\ud83d\udca8'
+        }
+      ]);
+    });
+
+    test('Face in clouds', () => {
+      expect(parse('\ud83d\ude36\u200d\ud83c\udf2b\ufe0f')).toMatchObject([
+        {
+          indices: [0, 6],
+          text: '\ud83d\ude36\u200d\ud83c\udf2b\ufe0f'
+        }
+      ]);
+    });
+
+    test('Bearded woman', () => {
+      expect(parse('\ud83e\uddd4\u200d\u2640\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83e\uddd4\u200d\u2640\ufe0f'
+        }
+      ]);
+    });
+
+    test('Couple with heart and different skintones', () => {
+      expect(parse('\ud83d\udc69\ud83c\udffd\u200d\u2764\ufe0f\u200d\ud83d\udc69\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 12],
+          text: '\ud83d\udc69\ud83c\udffd\u200d\u2764\ufe0f\u200d\ud83d\udc69\ud83c\udffb'
+        }
+      ]);
+    });
+
+    test('Couple kissing with different skintones', () => {
+      expect(
+        parse('\ud83d\udc69\ud83c\udffc\u200d\u2764\ufe0f\u200d\ud83d\udc8b\u200d\ud83d\udc69\ud83c\udffd')
+      ).toMatchObject([
+        {
+          indices: [0, 15],
+          text: '\ud83d\udc69\ud83c\udffc\u200d\u2764\ufe0f\u200d\ud83d\udc8b\u200d\ud83d\udc69\ud83c\udffd'
+        }
+      ]);
+    });
+
+    test('Heart on fire', () => {
+      expect(parse('\u2764\ufe0f\u200d\ud83d\udd25')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\u2764\ufe0f\u200d\ud83d\udd25'
+        }
+      ]);
+    });
+  });
+
+  describe('Emoji 14.0', () => {
+    test('single-codepoint handshake with no skintones', () => {
+      expect(parse('\ud83e\udd1d')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udd1d'
+        }
+      ]);
+    });
+
+    test('single-codepoint handshake with both hands the same skintone', () => {
+      expect(parse('\ud83e\udd1d\ud83c\udffe')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83e\udd1d\ud83c\udffe'
+        }
+      ]);
+    });
+
+    test('multi-codepoint handshake with different skintones', () => {
+      expect(parse('\ud83e\udef1\ud83c\udfff\u200d\ud83e\udef2\ud83c\udffd')).toMatchObject([
+        {
+          indices: [0, 9],
+          text: '\ud83e\udef1\ud83c\udfff\u200d\ud83e\udef2\ud83c\udffd'
+        }
+      ]);
+    });
+
+    test('multi-codepoint handshake with same skintone is unrecognized', () => {
+      expect(parse('\ud83e\udef1\ud83c\udffd\u200d\ud83e\udef2\ud83c\udffd')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83e\udef1\ud83c\udffd'
+        },
+        {
+          indices: [5, 9],
+          text: '\ud83e\udef2\ud83c\udffd'
+        }
+      ]);
+    });
+  });
+
+  describe('Emoji 15.0', () => {
+    test('single-codepoint leftward pushing hand with no skintone', () => {
+      expect(parse('\ud83e\udef7')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udef7'
+        }
+      ]);
+    });
+
+    test('single-codepoint rightward pushing hand with skintone', () => {
+      expect(parse('\ud83e\udef8\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83e\udef8\ud83c\udffb'
+        }
+      ]);
+    });
+
+    test('black bird', () => {
+      expect(parse('\ud83d\udc26\u200d\u2b1b')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83d\udc26\u200d\u2b1b'
+        }
+      ]);
+    });
+
+    test('wing', () => {
+      expect(parse('\ud83e\udebd')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udebd'
+        }
+      ]);
+    });
+  });
+
+  describe('Emoji 15.1', () => {
+    test('head shaking horizontally', () => {
+      expect(parse('\ud83d\ude42\u200d\u2194\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\ude42\u200d\u2194\ufe0f'
+        }
+      ]);
+    });
+
+    test('head shaking vertically', () => {
+      expect(parse('\ud83d\ude42\u200d\u2195\ufe0f')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\ude42\u200d\u2195\ufe0f'
+        }
+      ]);
+    });
+
+    describe('directional diversity emoji', () => {
+      test('person walking facing right (trailing gender without variant, directional)', () => {
+        expect(parse('\ud83d\udeb6\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83d\udeb6\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person walking facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udeb6\ud83c\udffd\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 7],
+            text: '\ud83d\udeb6\ud83c\udffd\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('woman walking facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udeb6\ud83c\udffd\u200d\u2640\ufe0f\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83d\udeb6\ud83c\udffd\u200d\u2640\ufe0f\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('man walking (trailing gender without variant)', () => {
+        expect(parse('\ud83d\udeb6\u200d\u2642\ufe0f')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83d\udeb6\u200d\u2642\ufe0f'
+          }
+        ]);
+      });
+
+      test('woman with white cane facing right (leading gender, directional)', () => {
+        expect(parse('\ud83d\udc69\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 8],
+            text: '\ud83d\udc69\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person with white cane facing right, medium skin tone', () => {
+        expect(parse('\ud83e\uddd1\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83e\uddd1\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('man with white cane facing right, medium skin tone', () => {
+        expect(parse('\ud83d\udc68\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f')).toMatchObject([
+          {
+            indices: [0, 10],
+            text: '\ud83d\udc68\ud83c\udffd\u200d\ud83e\uddaf\u200d\u27a1\ufe0f'
+          }
+        ]);
+      });
+
+      test('person with white cane (leading gender)', () => {
+        expect(parse('\ud83e\uddd1\u200d\ud83e\uddaf')).toMatchObject([
+          {
+            indices: [0, 5],
+            text: '\ud83e\uddd1\u200d\ud83e\uddaf'
+          }
+        ]);
+      });
+    });
+
+    test('family: adult, adult, child, child', () => {
+      expect(parse('\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2')).toMatchObject([
+        {
+          indices: [0, 11],
+          text: '\ud83e\uddd1\u200d\ud83e\uddd1\u200d\ud83e\uddd2\u200d\ud83e\uddd2'
+        }
+      ]);
+    });
+
+    test('phoenix', () => {
+      expect(parse('\ud83d\udc26\u200d\ud83d\udd25')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\ud83d\udc26\u200d\ud83d\udd25'
+        }
+      ]);
+    });
+
+    test('broken chain', () => {
+      expect(parse('\u26d3\ufe0f\u200d\ud83d\udca5')).toMatchObject([
+        {
+          indices: [0, 5],
+          text: '\u26d3\ufe0f\u200d\ud83d\udca5'
+        }
+      ]);
     });
   });
 });
