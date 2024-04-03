@@ -9,6 +9,10 @@
     "dist",
     "index.d.ts"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jdecked/twemoji-parser.git"
+  },
   "publishConfig": {
     "access": "public"
   },
