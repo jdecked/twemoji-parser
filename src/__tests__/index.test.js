@@ -968,4 +968,24 @@ describe('version spot checks', () => {
       ]);
     });
   });
+
+  describe('Emoji 16.0', () => {
+    test('flag of sark', () => {
+      expect(parse('\ud83c\udde8\ud83c\uddf6')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83c\udde8\ud83c\uddf6'
+        }
+      ]);
+    });
+
+    test('fingerprint', () => {
+      expect(parse('\ud83e\udec6')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udec6'
+        }
+      ]);
+    });
+  });
 });
