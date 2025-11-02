@@ -988,4 +988,60 @@ describe('version spot checks', () => {
       ]);
     });
   });
+
+  describe('Emoji 17.0', () => {
+    test('ballet dancer, medium-light skin tone', () => {
+      expect(parse('\ud83e\uddd1\ud83c\udffc\u200d\ud83e\ude70')).toMatchObject([
+        {
+          indices: [0, 7],
+          text: '\ud83e\uddd1\ud83c\udffc\u200d\ud83e\ude70'
+        }
+      ]);
+    });
+
+    test('women with bunny ears, dark skin tone', () => {
+      expect(parse('\ud83d\udc6f\ud83c\udffe\u200d\u2640\ufe0f')).toMatchObject([
+        {
+          indices: [0, 7],
+          text: '\ud83d\udc6f\ud83c\udffe\u200d\u2640\ufe0f'
+        }
+      ]);
+    });
+
+    test('men with bunny ears, different skin tones (medium-dark, light)', () => {
+      expect(parse('\ud83d\udc68\ud83c\udffe\u200d\ud83d\udc30\u200d\ud83d\udc68\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 12],
+          text: '\ud83d\udc68\ud83c\udffe\u200d\ud83d\udc30\u200d\ud83d\udc68\ud83c\udffb'
+        }
+      ]);
+    });
+
+    test('men wrestling, medium skin tone', () => {
+      expect(parse('\ud83e\udd3c\ud83c\udffd\u200d\u2642\ufe0f')).toMatchObject([
+        {
+          indices: [0, 7],
+          text: '\ud83e\udd3c\ud83c\udffd\u200d\u2642\ufe0f'
+        }
+      ]);
+    });
+
+    test('people wrestling, different skin tones (dark, medium-light)', () => {
+      expect(parse('\ud83e\uddd1\ud83c\udfff\u200d\ud83e\udeef\u200d\ud83e\uddd1\ud83c\udffc')).toMatchObject([
+        {
+          indices: [0, 12],
+          text: '\ud83e\uddd1\ud83c\udfff\u200d\ud83e\udeef\u200d\ud83e\uddd1\ud83c\udffc'
+        }
+      ]);
+    });
+
+    test('orca', () => {
+      expect(parse('\ud83e\udecd')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\ud83e\udecd'
+        }
+      ]);
+    });
+  });
 });

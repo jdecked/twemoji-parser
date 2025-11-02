@@ -258,10 +258,9 @@ class EmojiInfoGeneratedView(source: String,
                                      item)
         None
       case cp if cp.take(2) == Seq(PersonCodePoint, ZwjCodePoint) =>
-        verifyGenderComplementExists(CodePoints(ManCodePoint +: cp.drop(1)),
-                                     item)
-        verifyGenderComplementExists(CodePoints(WomanCodePoint +: cp.drop(1)),
-                                     item)
+        // Unicode 17.0+ allows some emoji to start with person + zwj without a
+        // corresponding gender complement to make backwards compatibility more
+        // simple (e.g. ballet dancer).
         Some((ZwjDiversityType.LeadingGender, cp.drop(2)))
       case cp
           if cp.takeRight(4) == Seq(
