@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "@twemoji/parser",
-  "version": "17.0.0",
+  "version": "17.0.1",
   "description": "Parser for identifying Twemoji in text",
   "main": "dist/index.js",
   "types": "index.d.ts",

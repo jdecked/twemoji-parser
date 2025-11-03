@@ -1492,7 +1492,7 @@
       keywords: 'bunny,dancer'
       type: 'multi-diversity'
       multi_diversity_base_same: '1f46f-skintone'
-      multi_diversity_base_different: '1f9d1-skintone-200d-1faef-200d-1f9d1-skintone'
+      multi_diversity_base_different: '1f9d1-skintone-200d-1f430-200d-1f9d1-skintone'
     - unicode: '1f46f-200d-2642-fe0f'
       description: 'Men with bunny ears'
       keywords: 'bunny,dancer,man,male,men'

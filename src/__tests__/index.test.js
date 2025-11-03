@@ -999,6 +999,15 @@ describe('version spot checks', () => {
       ]);
     });
 
+    test('people with bunny ears, light skin tone', () => {
+      expect(parse('\ud83d\udc6f\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 4],
+          text: '\ud83d\udc6f\ud83c\udffb'
+        }
+      ]);
+    });
+
     test('women with bunny ears, dark skin tone', () => {
       expect(parse('\ud83d\udc6f\ud83c\udffe\u200d\u2640\ufe0f')).toMatchObject([
         {
@@ -1013,6 +1022,15 @@ describe('version spot checks', () => {
         {
           indices: [0, 12],
           text: '\ud83d\udc68\ud83c\udffe\u200d\ud83d\udc30\u200d\ud83d\udc68\ud83c\udffb'
+        }
+      ]);
+    });
+
+    test('people with bunny ears, different skin tones (medium-dark, light)', () => {
+      expect(parse('\ud83e\uddd1\ud83c\udffe\u200d\ud83d\udc30\u200d\ud83e\uddd1\ud83c\udffb')).toMatchObject([
+        {
+          indices: [0, 12],
+          text: '\ud83e\uddd1\ud83c\udffe\u200d\ud83d\udc30\u200d\ud83e\uddd1\ud83c\udffb'
         }
       ]);
     });
