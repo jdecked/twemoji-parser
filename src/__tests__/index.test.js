@@ -92,6 +92,15 @@ describe('parse', () => {
         }
       ]);
     });
+
+    test('eye in speech bubble (fully-qualified)', () => {
+      expect(parse('\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f')).toMatchObject([
+        {
+          indices: [0, 7],
+          text: '\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f'
+        }
+      ]);
+    });
   });
 
   describe('URLs', () => {

@@ -5504,7 +5504,7 @@
     - unicode: '1f3b4'
       description: 'Flower playing cards'
       keywords: 'activity,card,entertainment,flower,game,japanese,playing'
-    - unicode: '1f441-200d-1f5e8'
+    - unicode: '1f441-fe0f-200d-1f5e8-fe0f'
       description: 'Eye in speech bubble'
       keywords: 'bubble,eye,speech,witness'
     - unicode: '1f5e8'
