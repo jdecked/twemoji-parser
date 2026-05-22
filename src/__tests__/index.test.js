@@ -101,6 +101,24 @@ describe('parse', () => {
         }
       ]);
     });
+
+    test('diagonal arrows require VS16 (#157)', () => {
+      // U+2196-2199 have Emoji_Presentation=No per Unicode, so they default
+      // to text presentation and must be paired with U+FE0F to render as
+      // emoji. See https://github.com/jdecked/twemoji/issues/157.
+      const arrows = ['\u2196', '\u2197', '\u2198', '\u2199'];
+      for (const arrow of arrows) {
+        expect(parse(arrow)).toMatchObject([]);
+        expect(parse(`${arrow}\ufe0e`)).toMatchObject([]);
+        expect(parse(`${arrow}\ufe0f`)).toMatchObject([
+          {
+            type: 'emoji',
+            indices: [0, 2],
+            text: `${arrow}\ufe0f`
+          }
+        ]);
+      }
+    });
   });
 
   describe('URLs', () => {
