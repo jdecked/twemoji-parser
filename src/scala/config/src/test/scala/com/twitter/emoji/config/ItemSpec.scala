@@ -146,29 +146,44 @@ class ItemSpec extends AnyWordSpec with Matchers {
     "have fully qualified text" which {
       "for types that require VS16" which {
         s"for $Variant" in {
-          val variantItem = getItem("26d1", Variant)
-          variantItem.text must equal(getText(0x26d1, VS16))
+          val variantItem = getItem("2b50", Variant)
+          variantItem.text must equal(getText(0x2b50, VS16))
         }
 
         s"for $TextDefault" in {
-          val textDefaultItem = getItem("265f", TextDefault)
-          textDefaultItem.text must equal(getText(0x265f, VS16))
+          val textDefaultItem = getItem("26d1", TextDefault)
+          textDefaultItem.text must equal(getText(0x26d1, VS16))
         }
 
         s"for $VariantDiversity" in {
-          val defaultItem = getItem("270c", VariantDiversity)
+          val defaultItem = getItem("1faf0", VariantDiversity)
           val variantDiversityItem = Item(defaultItem, Map())
-          variantDiversityItem.text must equal(getText(0x270c, VS16))
+          variantDiversityItem.text must equal(getText(0x1faf0, VS16))
           variantDiversityItem.skinToneVariants.map(_.text) must equal(
             Seq(
-              getText(0x270c, VS16, 0x1f3fb),
-              getText(0x270c, VS16, 0x1f3fc),
-              getText(0x270c, VS16, 0x1f3fd),
-              getText(0x270c, VS16, 0x1f3fe),
-              getText(0x270c, VS16, 0x1f3ff)
+              getText(0x1faf0, VS16, 0x1f3fb),
+              getText(0x1faf0, VS16, 0x1f3fc),
+              getText(0x1faf0, VS16, 0x1f3fd),
+              getText(0x1faf0, VS16, 0x1f3fe),
+              getText(0x1faf0, VS16, 0x1f3ff)
+            ))
+        }
+
+        s"for $TextDefaultDiversity" in {
+          val defaultItem = getItem("261d", TextDefaultDiversity)
+          val textDefaultItem = Item(defaultItem, Map())
+          textDefaultItem.text must equal(getText(0x261d, VS16))
+          textDefaultItem.skinToneVariants.map(_.text) must equal(
+            Seq(
+              getText(0x261d, VS16, 0x1f3fb),
+              getText(0x261d, VS16, 0x1f3fc),
+              getText(0x261d, VS16, 0x1f3fd),
+              getText(0x261d, VS16, 0x1f3fe),
+              getText(0x261d, VS16, 0x1f3ff)
             ))
         }
       }
+      
       "for types that do not require VS16" which {
         Seq(Normal, Keycap, Flag, Regional).foreach { emojiType =>
           s"for $emojiType" in {
@@ -241,7 +256,7 @@ class ItemSpec extends AnyWordSpec with Matchers {
         }
       }
 
-      Seq(VariantDiversity).foreach { emojiType =>
+      Seq(VariantDiversity, TextDefaultDiversity).foreach { emojiType =>
         "adds two to base codepoint length for " + emojiType in {
           getItem("1f606", emojiType).maxCodePointSequenceLength must be(3)
           getItem("1f606-1f607", emojiType).maxCodePointSequenceLength must be(

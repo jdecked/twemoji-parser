@@ -144,18 +144,19 @@ case class Item(
   //   Diversity: one Skin Tone (one of U+1f3f[b-f])
   //   DirectionalDiversity: one Skin Tone (one of U+1f3f[b-f]) and right directional sequence (exactly U+200d U+2640 U+fe0f)
   //   TextDefault: VS16 (exactly U+fe0f)
+  //   TextDefaultDiversity: VS16 (exactly U+fe0f) and one Skin Tone (one of U+1f3f[b-f])
   //   VariantDiversity: VS16 (exactly U+fe0f) and one Skin Tone (one of U+1f3f[b-f])
   //
   // In the case of MultiDiversity codepoints, we take the max sequence length of all the
   // diversityCodepoints, which should enumerate all recognized sequences for the emoji group
   // (including the base sequence).
   val maxCodePointSequenceLength = emojiType match {
-    case Normal | Keycap | Flag | Regional => codepoints.cp.length
-    case Variant | Diversity | TextDefault => codepoints.cp.length + 1
-    case VariantDiversity                  => codepoints.cp.length + 2
-    case Directional                       => codepoints.cp.length + 3
-    case DirectionalDiversity              => codepoints.cp.length + 4
-    case EmojiType.MultiDiversity          => diversitySequences.map(_.cp.length).max
+    case Normal | Keycap | Flag | Regional       => codepoints.cp.length
+    case Variant | Diversity | TextDefault       => codepoints.cp.length + 1
+    case VariantDiversity | TextDefaultDiversity => codepoints.cp.length + 2
+    case Directional                             => codepoints.cp.length + 3
+    case DirectionalDiversity                    => codepoints.cp.length + 4
+    case EmojiType.MultiDiversity                => diversitySequences.map(_.cp.length).max
   }
 }
 
@@ -214,7 +215,7 @@ object Item {
 
   def getFullyQualifiedEmojiText(emojiType: EmojiType.Value,
                                  codepoints: CodePoints): String = {
-    if ((EmojiType.VariantTypes ++ Seq(EmojiType.TextDefault))
+    if ((EmojiType.VariantTypes ++ EmojiType.TextDefaultTypes)
           .contains(emojiType)) {
       CodePoints(
         codepoints.cp

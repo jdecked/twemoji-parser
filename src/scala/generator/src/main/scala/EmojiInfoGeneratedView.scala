@@ -398,6 +398,12 @@ class EmojiInfoGeneratedView(source: String,
   val formattedVariantDiversityRegex =
     formatMultilineString(variantDiversityRegex, quote, indent = "      ")
 
+  val textDefaultDiversityRegex = regexFromCodepointSequences(
+    codePointSequencesByType(EmojiType.TextDefaultDiversity)
+  )
+  val formattedtextDefaultDiversityRegex =
+    formatMultilineString(textDefaultDiversityRegex, quote, indent = "      ")
+
   val directionalDiversityRegex = regexFromCodepointSequences(
     codePointSequencesByType(EmojiType.DirectionalDiversity)
   )

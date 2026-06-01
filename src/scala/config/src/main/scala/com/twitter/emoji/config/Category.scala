@@ -28,7 +28,7 @@ class CategoryForInfo(c: Category,
             if (EmojiType.SingleDiversityTypes.contains(item.emojiType)) "*"
             else ""
           val textDefault =
-            if (item.emojiType == EmojiType.TextDefault) "T" else ""
+            if (EmojiType.TextDefaultTypes.contains(item.emojiType)) "T" else ""
           item.key + variant + directional + diversity + textDefault
         } else item.key
       }
