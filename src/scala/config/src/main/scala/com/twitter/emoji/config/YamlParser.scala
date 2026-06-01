@@ -8,7 +8,8 @@ import scala.collection.JavaConverters._
 
 object EmojiType extends Enumeration {
   val Normal, Keycap, Flag, Regional, Variant, Directional, Diversity,
-  DirectionalDiversity, VariantDiversity, TextDefault, MultiDiversity = Value
+  DirectionalDiversity, VariantDiversity, TextDefault, TextDefaultDiversity,
+  MultiDiversity = Value
 
   private val lookup = Map[String, Value](
     "keycap" -> Keycap,
@@ -19,18 +20,20 @@ object EmojiType extends Enumeration {
     "diversity" -> Diversity,
     "directional,diversity" -> DirectionalDiversity,
     "variant,diversity" -> VariantDiversity,
+    "text-default,diversity" -> TextDefaultDiversity,
     "text-default" -> TextDefault,
     "multi-diversity" -> MultiDiversity
   )
 
   def apply(string: String): Value = lookup(string)
 
+  val TextDefaultTypes = Seq(TextDefault, TextDefaultDiversity)
   val VariantTypes = Seq(Variant, VariantDiversity)
   val DirectionalTypes = Seq(Directional, DirectionalDiversity)
   val SingleDiversityTypes =
-    Seq(Diversity, DirectionalDiversity, VariantDiversity)
+    Seq(Diversity, DirectionalDiversity, TextDefaultDiversity, VariantDiversity)
   val DiversityTypes =
-    Seq(Diversity, DirectionalDiversity, VariantDiversity, MultiDiversity)
+    Seq(Diversity, DirectionalDiversity, TextDefaultDiversity, VariantDiversity, MultiDiversity)
 }
 
 object YamlParser {

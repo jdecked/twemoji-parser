@@ -92,15 +92,6 @@ describe('parse', () => {
         }
       ]);
     });
-
-    test('eye in speech bubble (fully-qualified)', () => {
-      expect(parse('\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f')).toMatchObject([
-        {
-          indices: [0, 7],
-          text: '\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f'
-        }
-      ]);
-    });
   });
 
   describe('URLs', () => {
@@ -150,7 +141,60 @@ describe('parse', () => {
   });
 });
 
+describe('Emoji_Presentation=No spot checks', () => {
+  describe('arrows (fully-qualified text)', () => {
+    test('north east', () => {
+      expect(parse('\u2197\ufe0e')).toMatchObject([]);
+    });
+
+    test('north', () => {
+      expect(parse('\u2b06\ufe0e')).toMatchObject([]);
+    });
+  });
+
+  describe('arrows (fully-qualified emoji)', () => {
+    test('north east', () => {
+      expect(parse('\u2197\ufe0f')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\u2197\ufe0f'
+        }
+      ]);
+    });
+
+    test('north', () => {
+      expect(parse('\u2b06\ufe0f')).toMatchObject([
+        {
+          indices: [0, 2],
+          text: '\u2b06\ufe0f'
+        }
+      ]);
+    });
+  });
+
+  describe('arrows (unqualified)', () => {
+    test('north east', () => {
+      expect(parse('\u2197')).toMatchObject([]);
+    });
+
+    test('north', () => {
+      expect(parse('\u2b06')).toMatchObject([]);
+    });
+  });
+});
+
 describe('version spot checks', () => {
+  describe('Emoji 2.0', () => {
+    test('eye in speech bubble (fully-qualified)', () => {
+      expect(parse('\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f')).toMatchObject([
+        {
+          indices: [0, 7],
+          text: '\ud83d\udc41\ufe0f\u200d\ud83d\udde8\ufe0f'
+        }
+      ]);
+    });
+  });
+
   describe('Twemoji 2.3 (Unicode Emoji 5.0)', () => {
     test('Woman climbing', () => {
       expect(parse('\ud83e\uddd7\u200d\u2640\ufe0f')).toMatchObject([
@@ -619,12 +663,7 @@ describe('version spot checks', () => {
       });
 
       test('without vs16', () => {
-        expect(parse('\u26a7')).toMatchObject([
-          {
-            indices: [0, 1],
-            text: '\u26a7'
-          }
-        ]);
+        expect(parse('\u26a7')).toMatchObject([]);
       });
     });
 

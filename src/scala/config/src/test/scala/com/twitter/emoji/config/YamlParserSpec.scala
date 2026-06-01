@@ -47,9 +47,12 @@ class YamlParserSpec extends AnyWordSpec with Matchers {
                    "Baby",
                    EmojiType.Diversity,
                    false),
+              Item(CodePoints(Seq(0x1faf0)),
+                   "White hand with index finger and thumb crossed",
+                   EmojiType.VariantDiversity),
               Item(CodePoints(Seq(0x261d)),
                    "White up pointing index",
-                   EmojiType.VariantDiversity),
+                   EmojiType.TextDefaultDiversity),
               Item(
                 CodePoints(Seq(0x1f469, 0x200d, 0x2764, 0xfe0f, 0x200d, 0x1f48b,
                   0x200d, 0x1f468)),
@@ -396,9 +399,12 @@ object YamlParserSpec {
     description: "Baby"
     type: "diversity"
     exclude_from_picker: false
+  - unicode: "1faf0"
+    description: "White hand with index finger and thumb crossed"
+    type: "variant,diversity"
   - unicode: "261d"
     description: "White up pointing index"
-    type: "variant,diversity"
+    type: "text-default,diversity"
   - unicode: "1f469-200d-2764-fe0f-200d-1f48b-200d-1f468"
     description: "Kiss (woman, man)"
   - unicode: "1f9d1-200d-1f384"
