@@ -1,3 +1,0 @@
-resources(
-    sources = ["codegen/*.mustache"],
-)
